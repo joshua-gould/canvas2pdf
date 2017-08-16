@@ -1,0 +1,30 @@
+{
+  "name": "canvas2pdf",
+  "description": "Export an HTML canvas to PDF",
+  "license": "MIT",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshua-gould/canvas2pdf.git"
+  },
+  "homepage": "https://github.com/joshua-gould/canvas2pdf",
+  "bugs": {
+    "url": "https://github.com/joshua-gould/canvas2pdf/issues"
+  },
+  "author": {
+    "name": "Joshua Gould"
+  },
+  "keywords": [
+    "pdf",
+    "canvas",
+    "canvas2pdf"
+  ],
+  "scripts": {},
+  "devDependencies": {},
+  "optionalDependencies": {
+    "blob-stream": "^0.1.3"
+  },
+  "dependencies": {
+    "pdfkit": "^0.8.3"
+  }
+}
