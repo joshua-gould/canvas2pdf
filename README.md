@@ -36,7 +36,7 @@ context.end();
 `canvas2pdf` works with node.js. Note that neither a DOM or canvas library is needed.  
 
 ## Interactive Browser Demo
-[https://joshua-gould.github.io/canvas2pdf/](https://joshua-gould.github.io/canvas2pdf/)
+[Open](https://joshua-gould.github.io/canvas2pdf/demo.html)
 
 ## Notes
 + Inspired by [Canvas2Svg](https://github.com/gliffy/canvas2svg)
