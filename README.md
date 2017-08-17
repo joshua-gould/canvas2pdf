@@ -1,6 +1,6 @@
 # Canvas2PDF 
 
-Canvas2PDF exports an HTML canvas to PDF. In other words, this library lets you build an PDF document 
+Canvas2PDF exports an HTML canvas to PDF. In other words, this library lets you build a PDF document 
 using the canvas API.
 
 ## How it works
