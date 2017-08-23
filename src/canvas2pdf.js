@@ -136,6 +136,11 @@
       set: function (value) { _this.doc.lineJoin(value); }
     });
 
+    Object.defineProperty(this, 'globalAlpha', {
+      get: function () { return _this.doc.opacity(); },
+      set: function (value) { _this.doc.opacity(value); }
+    });
+
     Object.defineProperty(this, 'font', {
       get: function () { return fontValue; },
       set: function (value) {
@@ -148,6 +153,8 @@
     });
     _this.lineHeight = this.doc.currentLineHeight(false);
     this.font = fontValue;
+    this.strokeStyle = 'rgb(0,0,0)';
+    this.fillStyle = 'rgb(0,0,0)';
   };
   canvas2pdf.PdfContext.prototype.end = function () {
     this.doc.end();
