@@ -11,9 +11,12 @@ function injectJSString(page, script) {
   }, script);
 };
 var dir = fs.workingDirectory;
-fs.makeDirectory('test/img');
-fs.makeDirectory('test/img/png');
-fs.makeDirectory('test/img/pdf');
+if (fs.exists('test/img')) {
+  fs.removeTree('test/img');
+}
+fs.makeTree('test/img');
+fs.makeTree('test/img/png');
+fs.makeTree('test/img/pdf');
 fs.changeWorkingDirectory('test/img');
 var scripts = [
   fs.absolute(dir + '/test/diff_test/init.js'),
