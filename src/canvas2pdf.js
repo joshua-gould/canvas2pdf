@@ -27,6 +27,61 @@
   } else {
     global.canvas2pdf = canvas2pdf; // browser global
   }
+
+  function hex(v) {
+    return v < 0x10
+        ? '0' + Math.max(0, v).toString(16)
+        : Math.min(255, v).toString(16);
+  };
+
+  function hslToHex(h, s, l, a) {
+    h = h % 360 + (h < 0) * 360;
+    s = isNaN(h) || isNaN(s) ? 0 : s;
+    var m2 = l + (l < 0.5 ? l : 1 - l) * s;
+    var m1 = 2 * l - m2;
+    return rgbToHex(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2),
+        hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), a);
+  };
+
+  function hsl2rgb(h, m1, m2) {
+    return (h < 60 ? m1 + (m2 - m1) * h / 60
+        : h < 180 ? m2
+            : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60
+                : m1) * 255;
+  };
+  var reI = '\\s*([+-]?\\d+)\\s*',
+      reN = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*',
+      reP = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*',
+      reRgbInteger = new RegExp('^rgb\\(' + [reI, reI, reI] + '\\)$'),
+      reRgbPercent = new RegExp('^rgb\\(' + [reP, reP, reP] + '\\)$'),
+      reRgbaInteger = new RegExp('^rgba\\(' + [reI, reI, reI, reN] + '\\)$'),
+      reRgbaPercent = new RegExp('^rgba\\(' + [reP, reP, reP, reN] + '\\)$'),
+      reHslPercent = new RegExp('^hsl\\(' + [reN, reP, reP] + '\\)$'),
+      reHslaPercent = new RegExp('^hsla\\(' + [reN, reP, reP, reN] + '\\)$');
+
+  var rgbToHex = function (r, g, b, a) {
+    return {c: '#' + hex(r) + hex(g) + hex(b), a: a};
+  };
+
+  var fixColor = function (value) {
+    var m;
+    var format = (value + '').trim().toLowerCase();
+    if ((m = reRgbInteger.exec(format))) { // rgb(255, 0, 0)
+      return rgbToHex(m[1], m[2], m[3], 1);
+    } else if ((m = reRgbPercent.exec(format))) { // // rgb(100%, 0%, 0%)
+      return rgbToHex(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, 1);
+    } else if ((m = reRgbaInteger.exec(format))) { // // rgba(255, 0, 0, 0.5)
+      return rgbToHex(m[1], m[2], m[3], m[4]);
+    } else if ((m = reRgbaPercent.exec(format))) { // // rgb(100%, 0%, 0%, .2)
+      return rgbToHex(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]);
+    } else if ((m = reHslPercent.exec(format))) { // // hsl(120, 50%, 50%)
+      return hslToHex(m[1], m[2] / 100, m[3] / 100);
+    } else if ((m = reHslaPercent.exec(format))) {
+      return hslToHex(m[1], m[2] / 100, m[3] / 100, m[4]); // hsla(120, 50%, 50%, 1)
+    } else {
+      return {c: value, a: 1};
+    }
+  };
   /**
    *
    * @param stream Stream to write the PDF to.
@@ -58,75 +113,25 @@
       return data;
     };
 
-    function hex(v) {
-      return v < 0x10
-          ? '0' + Math.max(0, v).toString(16)
-          : Math.min(255, v).toString(16);
-    };
-
-    function hslToHex(h, s, l) {
-      h = h % 360 + (h < 0) * 360;
-      s = isNaN(h) || isNaN(s) ? 0 : s;
-      var m2 = l + (l < 0.5 ? l : 1 - l) * s;
-      var m1 = 2 * l - m2;
-      return rgbToHex(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2),
-          hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2));
-    };
-
-    function hsl2rgb(h, m1, m2) {
-      return (h < 60 ? m1 + (m2 - m1) * h / 60
-          : h < 180 ? m2
-              : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60
-                  : m1) * 255;
-    };
-    var reI = '\\s*([+-]?\\d+)\\s*',
-        reN = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*',
-        reP = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*',
-        reHex3 = /^#([0-9a-f]{3})$/,
-        reHex6 = /^#([0-9a-f]{6})$/,
-        reRgbInteger = new RegExp('^rgb\\(' + [reI, reI, reI] + '\\)$'),
-        reRgbPercent = new RegExp('^rgb\\(' + [reP, reP, reP] + '\\)$'),
-        reRgbaInteger = new RegExp('^rgba\\(' + [reI, reI, reI, reN] + '\\)$'),
-        reRgbaPercent = new RegExp('^rgba\\(' + [reP, reP, reP, reN] + '\\)$'),
-        reHslPercent = new RegExp('^hsl\\(' + [reN, reP, reP] + '\\)$'),
-        reHslaPercent = new RegExp('^hsla\\(' + [reN, reP, reP, reN] + '\\)$');
-
-    var rgbToHex = function (r, g, b) {
-      return '#' + hex(r) + hex(g) + hex(b);
-    };
-
-    var maybeFixColor = function (value) {
-      var m;
-      // TODO support opacity
-      var format = (value + '').trim().toLowerCase();
-      if ((m = reRgbInteger.exec(format))) { // rgb(255, 0, 0)
-        return rgbToHex(m[1], m[2], m[3]);
-      } else if ((m = reRgbPercent.exec(format))) { // // rgb(100%, 0%, 0%)
-        return rgbToHex(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100);
-      } else if ((m = reRgbaInteger.exec(format))) { // // rgb(100%, 0%, 0%)
-        return rgbToHex(m[1], m[2], m[3], m[4]);
-      } else if ((m = reRgbaPercent.exec(format))) { // // rgb(100%, 0%, 0%)
-        return rgbToHex(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]);
-      } else if ((m = reHslPercent.exec(format))) { // // hsl(120, 50%, 50%)
-        return hslToHex(m[1], m[2] / 100, m[3] / 100);
-      } else if ((m = reHslaPercent.exec(format))) {
-        return hslToHex(m[1], m[2] / 100, m[3] / 100); // hsla(120, 50%, 50%, 1)
-      } else {
-        return value;
-      }
-    };
     Object.defineProperty(this, 'fillStyle', {
       get: function () { return _this.doc.fillColor(); },
-      set: function (value) {_this.doc.fillColor(maybeFixColor(value));}
+      set: function (value) {
+        var color = fixColor(value);
+        _this.doc.fillColor(color.c, color.a);
+      }
     });
     Object.defineProperty(this, 'strokeStyle', {
       get: function () { return _this.doc.strokeColor(); },
-      set: function (value) { _this.doc.strokeColor(maybeFixColor(value)); }
+      set: function (value) {
+        var color = fixColor(value);
+        _this.doc.strokeColor(color.c, color.a);
+      }
     });
     Object.defineProperty(this, 'lineWidth', {
       get: function () { return _this.doc.lineWidth(); },
       set: function (value) { _this.doc.lineWidth(value); }
     });
+
     Object.defineProperty(this, 'lineCap', {
       get: function () { return _this.doc.lineCap(); },
       set: function (value) { _this.doc.lineCap(value); }
@@ -289,7 +294,8 @@
   canvas2pdf.PdfContext.prototype.createLinearGradient = function (x1, y1, x2, y2) {
     var gradient = this.doc.linearGradient(x1, y1, x2, y2);
     gradient.addColorStop = function (offset, color) {
-      gradient.stop(offset, color); // TODO fix color
+      var fixedColor = fixColor(color);
+      gradient.stop(offset, fixedColor.c, fixedColor.a);
     };
     return gradient;
   };
@@ -298,7 +304,8 @@
     var _this = this;
     var gradient = this.doc.radialGradient(x0, y0, r0, x1, y1, r1);
     gradient.addColorStop = function (offset, color) {
-      gradient.stop(offset, color); // TODO fix color
+      var fixedColor = fixColor(color);
+      gradient.stop(offset, fixedColor.c, fixedColor.a);
     };
     return gradient;
   };
@@ -375,16 +382,19 @@
   canvas2pdf.PdfContext.prototype.drawFocusRing = function () {
     console.log('drawFocusRing not implemented');
   };
-  canvas2pdf.PdfContext.prototype.createImageData = function () {
 
+  canvas2pdf.PdfContext.prototype.createImageData = function () {
     console.log('drawFocusRing not implemented');
   };
+
   canvas2pdf.PdfContext.prototype.getImageData = function () {
     console.log('getImageData not implemented');
   };
+
   canvas2pdf.PdfContext.prototype.putImageData = function () {
     console.log('putImageData not implemented');
   };
+
   canvas2pdf.PdfContext.prototype.globalCompositeOperation = function () {
     console.log('globalCompositeOperation not implemented');
   };
@@ -392,6 +402,7 @@
   canvas2pdf.PdfContext.prototype.arcTo = function (x1, y1, x2, y2, radius) {
     console.log('arcTo not implemented');
   };
+
 })(typeof window !== 'undefined' ? window : this);
 
 

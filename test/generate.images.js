@@ -60,17 +60,17 @@ exampleNames.forEach(function (exampleName) {
     var example = CANVAS2PDF_DIFF_TEST[name];
     document.body.innerHTML = '';
 
-    var pdfGraphics = new canvas2pdf.PdfContext(blobStream(), {size: [CANVAS_WIDTH, CANVAS_HEIGHT]});
-    example(pdfGraphics);
-    pdfGraphics.stream.on('finish', function () {
-      var blob = pdfGraphics.stream.toBlob('application/pdf');
+    var ctx = new canvas2pdf.PdfContext(blobStream(), {size: [CANVAS_WIDTH, CANVAS_HEIGHT]});
+    example(ctx);
+    ctx.stream.on('finish', function () {
+      var blob = ctx.stream.toBlob('application/pdf');
       var reader = new FileReader();
       reader.onloadend = function () {
         window.callPhantom({data: reader.result, name: name});
       };
       reader.readAsBinaryString(blob);
     });
-    pdfGraphics.end();
+    ctx.end();
   }, exampleName);
 
 });
@@ -104,12 +104,11 @@ exampleNames.forEach(function (exampleName) {
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
     document.body.appendChild(canvas);
-    var context = canvas.getContext('2d');
-    // TODO PDFs don't have transparent background
-    context.fillStyle = 'white';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    canvas.fillStyle = 'black';
-    example(context);
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.fillStyle = 'black';
+    example(ctx);
     var base64 = canvas.toDataURL('image/png', 0);
     window.callPhantom({data: base64, name: name});
   }, exampleName);
