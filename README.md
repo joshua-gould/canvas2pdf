@@ -20,11 +20,11 @@ ctx.fillRect(100,100,100,100);
 // more canvas drawing, etc...
 
 //convert your PDF to a Blob and save to file
-context.stream.on('finish', function () {
-    var blob = context.stream.toBlob('application/pdf');
+ctx.stream.on('finish', function () {
+    var blob = ctx.stream.toBlob('application/pdf');
     saveAs(blob, 'example.pdf', true);
 });
-context.end();
+ctx.end();
 ```
 
 ## Dependencies
@@ -36,13 +36,15 @@ context.end();
 `canvas2pdf` works with node.js. Note that neither a DOM or canvas library is needed.  
 
 ## Interactive Browser Demo
-[Open](https://joshua-gould.github.io/canvas2pdf/demo.html)
+[Open Demo](https://joshua-gould.github.io/canvas2pdf/demo.html)
 
 ## Notes
 + Inspired by [Canvas2Svg](https://github.com/gliffy/canvas2svg)
 + Calling fill and then stroke consecutively does not work
 + Some canvas 2d context methods are not implemented yet (e.g. setTransform and arcTo)
 
+## Status
+[![Build Status](https://travis-ci.org/joshua-gould/canvas2pdf.svg?branch=master)](https://travis-ci.org/joshua-gould/canvas2pdf)
 
 ## License
 MIT
