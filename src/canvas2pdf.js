@@ -28,36 +28,36 @@
     global.canvas2pdf = canvas2pdf; // browser global
   }
 
-  function hex(v) {
+  function hex (v) {
     return v < 0x10
-        ? '0' + Math.max(0, v).toString(16)
-        : Math.min(255, v).toString(16);
+      ? '0' + Math.max(0, v).toString(16)
+      : Math.min(255, v).toString(16);
   };
 
-  function hslToHex(h, s, l, a) {
+  function hslToHex (h, s, l, a) {
     h = h % 360 + (h < 0) * 360;
     s = isNaN(h) || isNaN(s) ? 0 : s;
     var m2 = l + (l < 0.5 ? l : 1 - l) * s;
     var m1 = 2 * l - m2;
     return rgbToHex(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2),
-        hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), a);
+      hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), a);
   };
 
-  function hsl2rgb(h, m1, m2) {
+  function hsl2rgb (h, m1, m2) {
     return (h < 60 ? m1 + (m2 - m1) * h / 60
-        : h < 180 ? m2
-            : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60
-                : m1) * 255;
+      : h < 180 ? m2
+        : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60
+          : m1) * 255;
   };
   var reI = '\\s*([+-]?\\d+)\\s*',
-      reN = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*',
-      reP = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*',
-      reRgbInteger = new RegExp('^rgb\\(' + [reI, reI, reI] + '\\)$'),
-      reRgbPercent = new RegExp('^rgb\\(' + [reP, reP, reP] + '\\)$'),
-      reRgbaInteger = new RegExp('^rgba\\(' + [reI, reI, reI, reN] + '\\)$'),
-      reRgbaPercent = new RegExp('^rgba\\(' + [reP, reP, reP, reN] + '\\)$'),
-      reHslPercent = new RegExp('^hsl\\(' + [reN, reP, reP] + '\\)$'),
-      reHslaPercent = new RegExp('^hsla\\(' + [reN, reP, reP, reN] + '\\)$');
+    reN = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*',
+    reP = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*',
+    reRgbInteger = new RegExp('^rgb\\(' + [reI, reI, reI] + '\\)$'),
+    reRgbPercent = new RegExp('^rgb\\(' + [reP, reP, reP] + '\\)$'),
+    reRgbaInteger = new RegExp('^rgba\\(' + [reI, reI, reI, reN] + '\\)$'),
+    reRgbaPercent = new RegExp('^rgba\\(' + [reP, reP, reP, reN] + '\\)$'),
+    reHslPercent = new RegExp('^hsl\\(' + [reN, reP, reP] + '\\)$'),
+    reHslaPercent = new RegExp('^hsla\\(' + [reN, reP, reP, reN] + '\\)$');
 
   var rgbToHex = function (r, g, b, a) {
     return {c: '#' + hex(r) + hex(g) + hex(b), a: a};
@@ -105,7 +105,7 @@
       style: 'normal',
       size: 10,
       family: 'Helvetica',
-      weight: 'normal'
+      weight: 'normal',
     };
     var parseFont = function () {
       var fontPart = fontRegex.exec(_this.font);
@@ -116,7 +116,7 @@
         style: fontPart[1] || 'normal',
         size: parseInt(fontPart[4]) || 10,
         family: fontPart[6] || 'Helvetica',
-        weight: fontPart[3] || 'normal'
+        weight: fontPart[3] || 'normal',
       };
       return data;
     };
@@ -126,32 +126,32 @@
       set: function (value) {
         var color = fixColor(value);
         _this.doc.fillColor(color.c, color.a);
-      }
+      },
     });
     Object.defineProperty(this, 'strokeStyle', {
       get: function () { return _this.doc.strokeColor(); },
       set: function (value) {
         var color = fixColor(value);
         _this.doc.strokeColor(color.c, color.a);
-      }
+      },
     });
     Object.defineProperty(this, 'lineWidth', {
       get: function () { return _this.doc.lineWidth(); },
-      set: function (value) { _this.doc.lineWidth(value); }
+      set: function (value) { _this.doc.lineWidth(value); },
     });
 
     Object.defineProperty(this, 'lineCap', {
       get: function () { return _this.doc.lineCap(); },
-      set: function (value) { _this.doc.lineCap(value); }
+      set: function (value) { _this.doc.lineCap(value); },
     });
     Object.defineProperty(this, 'lineJoin', {
       get: function () { return _this.doc.lineJoin(); },
-      set: function (value) { _this.doc.lineJoin(value); }
+      set: function (value) { _this.doc.lineJoin(value); },
     });
 
     Object.defineProperty(this, 'globalAlpha', {
       get: function () { return _this.doc.opacity(); },
-      set: function (value) { _this.doc.opacity(value); }
+      set: function (value) { _this.doc.opacity(value); },
     });
 
     Object.defineProperty(this, 'font', {
@@ -162,7 +162,7 @@
         _this.doc.fontSize(parsedFont.size);
         _this.doc.font(parsedFont.family);
         _this.lineHeight = this.doc.currentLineHeight(false);
-      }
+      },
     });
     _this.lineHeight = this.doc.currentLineHeight(false);
     this.font = fontValue;
@@ -245,16 +245,16 @@
 
   canvas2pdf.PdfContext.prototype.arc = function (x, y, r, a0, a1, ccw) {
     var pi = Math.PI,
-        tau = 2 * pi,
-        epsilon = 1e-6,
-        tauEpsilon = tau - epsilon;
+      tau = 2 * pi,
+      epsilon = 1e-6,
+      tauEpsilon = tau - epsilon;
     x = +x, y = +y, r = +r;
     var dx = r * Math.cos(a0),
-        dy = r * Math.sin(a0),
-        x0 = x + dx,
-        y0 = y + dy,
-        cw = 1 ^ ccw,
-        da = ccw ? a0 - a1 : a1 - a0;
+      dy = r * Math.sin(a0),
+      x0 = x + dx,
+      y0 = y + dy,
+      cw = 1 ^ ccw,
+      da = ccw ? a0 - a1 : a1 - a0;
 
     // Is the radius negative? Error.
     if (r < 0) {
@@ -282,12 +282,14 @@
 
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
-      cmd += 'A' + r + ',' + r + ',0,1,' + cw + ',' + (x - dx) + ',' + (y - dy) + 'A' + r + ',' + r + ',0,1,' + cw + ',' + x0 + ',' + y0;
+      cmd += 'A' + r + ',' + r + ',0,1,' + cw + ',' + (x - dx) + ',' + (y - dy) + 'A' + r + ',' + r + ',0,1,' + cw +
+        ',' + x0 + ',' + y0;
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon) {
-      cmd += 'A' + r + ',' + r + ',0,' + (+(da >= pi)) + ',' + cw + ',' + ( x + r * Math.cos(a1)) + ',' + ( y + r * Math.sin(a1));
+      cmd += 'A' + r + ',' + r + ',0,' + (+(da >= pi)) + ',' + cw + ',' + ( x + r * Math.cos(a1)) + ',' +
+        ( y + r * Math.sin(a1));
     }
     this.doc.path(cmd);
   };
@@ -347,7 +349,7 @@
     x = this.adjustTextX(text, x);
     y = this.adjustTextY(text, y);
     this.doc.text(text, x, y, {
-      lineBreak: false, stroke: false, fill: true
+      lineBreak: false, stroke: false, fill: true,
     });
   };
 
@@ -368,15 +370,55 @@
     this.doc.clip();
   };
 
+  canvas2pdf.PdfContext.prototype.drawImage = function (image) {
+    var _this;
+    var args = Array.prototype.slice.call(arguments);
+    var image = args[0];
+    var dx, dy, dw, dh, sx = 0, sy = 0, sw, sh;
+    if (args.length === 3) {
+      dx = args[1];
+      dy = args[2];
+      sw = image.width;
+      sh = image.height;
+      dw = sw;
+      dh = sh;
+    } else if (args.length === 5) {
+      dx = args[1];
+      dy = args[2];
+      dw = args[3];
+      dh = args[4];
+      sw = image.width;
+      sh = image.height;
+    } else if (args.length === 9) {
+      sx = args[1];
+      sy = args[2];
+      sw = args[3];
+      sh = args[4];
+      dx = args[5];
+      dy = args[6];
+      dw = args[7];
+      dh = args[8];
+    } else {
+      throw new Error('Invalid number of arguments passed to drawImage: ' + arguments.length);
+    }
+
+    if (image.nodeName === 'IMG') {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      canvas.getContext('2d').drawImage(image, 0, 0);
+      var dataURL = canvas.toDataURL('image/png');
+      this.doc.image(dataURL, dx, dy, {width: dw, height: dh});
+    } else {
+      this.doc.image(image, dx, dy, {width: dw, height: dh});
+    }
+  };
+
   /**
    * Not yet implemented
    */
   canvas2pdf.PdfContext.prototype.setTransform = function () {
     console.log('setTransform not implemented');
-  };
-
-  canvas2pdf.PdfContext.prototype.drawImage = function () {
-    console.log('drawImage not implemented');
   };
 
   canvas2pdf.PdfContext.prototype.createPattern = function (image, repetition) {

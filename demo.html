@@ -18,12 +18,21 @@
 </head>
 <body>
 <h1>Canvas2PDF Demo</h1>
-<textarea>
+<div>
+    <label>Load Example: </label>
+<select id="example_picker">
+    <option value="editor_source">Clock</option>
+    <option value="image_example">Image</option>
+</select>
+</div>
+<br />
+<textarea id="editor_source">
 // from https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_hands
 var radius = 200;
 ctx.translate(radius, radius);
 radius = radius * 0.90
 drawClock();
+ctx.end();
 
 function drawClock() {
   drawFace(ctx, radius);
@@ -98,14 +107,27 @@ function drawHand(ctx, pos, length, width) {
 
 </textarea>
 
+<textarea id="image_example" style="display:none;">
+var image = new Image();
+image.crossOrigin = 'Anonymous';
+image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Tiger_in_Ranthambhore.jpg/220px-Tiger_in_Ranthambhore.jpg';
+image.onload = function () {
+    ctx.drawImage(image, 0, 0);
+    ctx.end();
+};
+</textarea>
+
 <iframe style="border:1px solid black;" width="600" height="775">
 </iframe>
 <script src="lib/codemirror.js"></script>
 <link rel="stylesheet" href="lib/codemirror.css">
 <script type="text/javascript">
-
-  var editor = CodeMirror.fromTextArea(document.querySelector('textarea'), {
-    lineNumbers: true
+  var examplePicker = document.getElementById('example_picker');
+  examplePicker.onchange = function () {
+   editor.setValue(document.getElementById(examplePicker.value).value)
+  };
+  var editor = CodeMirror.fromTextArea(document.getElementById('editor_source'), {
+    lineNumbers: true,
   });
   editor.setSize(600, 775);
   var iframe = document.querySelector('iframe');
@@ -114,7 +136,7 @@ function drawHand(ctx, pos, length, width) {
     var stream = blobStream();
     var ctx = new canvas2pdf.PdfContext(stream);
     eval(text);
-    ctx.end();
+
     ctx.stream.on('finish', function () {
       iframe.src = ctx.stream.toBlobURL('application/pdf');
     });
