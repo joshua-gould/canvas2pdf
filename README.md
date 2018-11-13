@@ -8,7 +8,7 @@ using the canvas API.
 We create a mock 2d canvas context. Use the canvas context like you would on a normal canvas. As you call methods, we 
 use PDFKit to generate a PDF document.
 
-## Usage
+## Browser Usage
 
 ```javascript
 //Create a new PDF canvas context.
@@ -25,6 +25,28 @@ ctx.stream.on('finish', function () {
     saveAs(blob, 'example.pdf', true);
 });
 ctx.end();
+```
+
+## Node Usage
+
+```javascript
+PDFDocument = require('pdfkit')
+const fs = require('fs')
+const canvas2pdf = require('canvas2pdf')
+
+const file = fs.createWriteStream('example.pdf')
+//Create a new PDF canvas context.
+const ctx = new canvas2pdf.PdfContext(file)
+
+//draw your canvas like you would normally
+ctx.fillStyle = 'yellow'
+ctx.fillRect(100, 100, 100, 100)
+// more canvas drawing, etc...
+
+ctx.stream.on('finish', function () {
+  file.end()
+})
+ctx.end()
 ```
 
 ## Dependencies
