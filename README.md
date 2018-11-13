@@ -12,7 +12,7 @@ use PDFKit to generate a PDF document.
 
 ```javascript
 //Create a new PDF canvas context.
-var ctx = new canvas2pdf.Context(blobStream());
+var ctx = new canvas2pdf.PdfContext(blobStream());
 
 //draw your canvas like you would normally
 ctx.fillStyle='yellow';
