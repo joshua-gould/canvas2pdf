@@ -2,7 +2,7 @@
   "name": "canvas2pdf",
   "description": "Export an HTML canvas to PDF",
   "license": "MIT",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/joshua-gould/canvas2pdf.git"
@@ -14,6 +14,7 @@
   "author": {
     "name": "Joshua Gould"
   },
+  "main": "canvas2pdf.js",
   "keywords": [
     "pdf",
     "canvas",
