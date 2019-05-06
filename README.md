@@ -70,3 +70,6 @@ ctx.end()
 
 ## License
 MIT
+
+# Developer Dependencies
++ Ghostscript and GraphicsMagick are required for running tests

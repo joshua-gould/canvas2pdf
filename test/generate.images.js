@@ -20,7 +20,7 @@ fs.makeTree('test/img/pdf');
 fs.changeWorkingDirectory('test/img');
 var scripts = [
   fs.absolute(dir + '/test/diff_test/init.js'),
-  fs.absolute(dir + '/src/canvas2pdf.js'), fs.absolute(dir + '/lib/blob-stream.js'),
+  fs.absolute(dir + '/canvas2pdf.js'), fs.absolute(dir + '/lib/blob-stream.js'),
   fs.absolute(dir + '/lib/pdfkit.js')];
 
 var specs = fs.list(fs.absolute(dir + '/test/diff_test/'));
