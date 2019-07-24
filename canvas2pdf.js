@@ -151,7 +151,7 @@
 
     Object.defineProperty(this, 'globalAlpha', {
       get: function () { return _this.doc.opacity(); },
-      set: function (value) { _this.doc.opacity(value); },
+      set: function (value) { (value >= 0.0 && value <= 1.0) && _this.doc.opacity(value); },
     });
 
     Object.defineProperty(this, 'font', {
