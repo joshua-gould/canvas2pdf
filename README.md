@@ -64,6 +64,7 @@ ctx.end()
 + Inspired by [Canvas2Svg](https://github.com/gliffy/canvas2svg)
 + Calling fill and then stroke consecutively only executes fill
 + Some canvas 2d context methods are not implemented yet (e.g. setTransform and arcTo)
++ Does not require you to convert the canvas to img and then the img to pdf, unlike the other proposed solutions which embed an image in a PDF document.
 
 ## Status
 [![Build Status](https://travis-ci.org/joshua-gould/canvas2pdf.svg?branch=master)](https://travis-ci.org/joshua-gould/canvas2pdf)
