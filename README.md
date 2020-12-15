@@ -1,7 +1,10 @@
-# Canvas2PDF 
+# Canvas2PDF (fork)
 
-Canvas2PDF exports an HTML canvas to PDF. In other words, this library lets you build a PDF document 
-using the canvas API.
+Canvas2PDF is a HTML Canvas Renderer for PDF output. This means you can use the same CanvasRenderingContext2D (canvas.getContext('2d')) API to generate a PDF.
+
+This library generates actual drawing calls to create a proper PDF with vector graphics, unlike many alternate libraries which just rasterize the canvas and place it as an image in a PDF.
+
+This is a fork of https://github.com/joshua-gould/canvas2pdf, which aims to provide better support for the entire HTML canvas API as well as updates and fixes.
 
 ## How it works
 
@@ -59,6 +62,21 @@ ctx.end()
 
 ## Interactive Browser Demo
 [Open Demo](https://joshua-gould.github.io/canvas2pdf/demo.html)
+
+## Missing PDF API Calls
+
+- setTransform 
+- createPattern  
+- setLineDash  
+- drawFocusRing  
+- createImageData  
+- getImageData  
+- putImageData  
+- globalCompositeOperation  
+- arcTo  
+- ellipse
+
+(there are more, which are not documented yet)
 
 ## Notes
 + Inspired by [Canvas2Svg](https://github.com/gliffy/canvas2svg)
