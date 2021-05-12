@@ -1,7 +1,6 @@
 # Canvas2PDF 
 
-Canvas2PDF exports an HTML canvas to PDF. In other words, this library lets you build a PDF document 
-using the canvas API.
+Canvas2PDF exports your HTML canvas as PDF using JavaScript. Note that this library generates actual PDF drawing calls to create a PDF with vector graphics, unlike some alternate libraries which rasterize your canvas and place it as an image in your PDF.
 
 ## How it works
 
