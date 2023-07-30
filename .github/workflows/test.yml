@@ -20,7 +20,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install graphicsmagick libxss1
+          sudo apt-get update && sudo apt-get install -y graphicsmagick libxss1 build-essential chrpath libssl-dev libxft-dev libfontconfig1 libfontconfig1-dev
+          wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2
+          tar xvjf phantomjs-1.9.8-linux-x86_64.tar.bz2
+          sudo mv phantomjs-1.9.8-linux-x86_64 /usr/local/share
+          sudo ln -sf /usr/local/share/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/bin
           yarn install
       - name: Test with yarn
         run: |
