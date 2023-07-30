@@ -63,7 +63,7 @@ ctx.end()
 + Inspired by [Canvas2Svg](https://github.com/gliffy/canvas2svg)
 + Calling fill and then stroke consecutively only executes fill
 + Some canvas 2d context methods are not implemented yet (e.g. setTransform and arcTo)
-+ 
+
 
 ## License
 MIT
