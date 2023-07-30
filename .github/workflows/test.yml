@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install graphicsmagick libxss1
-          yarn add --dev
+          yarn install
       - name: Test with yarn
         run: |
           yarn test
