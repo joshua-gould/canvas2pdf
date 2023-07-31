@@ -149,9 +149,14 @@
       set: function (value) { _this.doc.lineJoin(value); },
     });
 
-    Object.defineProperty(this, 'globalAlpha', {
-      get: function () { return _this.doc.opacity(); },
-      set: function (value) { (value >= 0.0 && value <= 1.0) && _this.doc.opacity(value); },
+    Object.defineProperty(this, "globalAlpha", {
+      get: function () {
+        return _this.__globalAlpha ?? 1;
+      },
+      set: function (value) {
+        _this.__globalAlpha = Math.max(0.0, Math.min(value, 1.0));
+        _this.doc.opacity(_this.__globalAlpha);
+      },
     });
 
     Object.defineProperty(this, 'font', {
@@ -192,6 +197,28 @@
 
   canvas2pdf.PdfContext.prototype.translate = function (x, y) {
     this.doc.translate(x, y);
+  };
+
+  canvas2pdf.PdfContext.prototype.transform = function (
+    a = 1,
+    b = 0,
+    c = 0,
+    d = 1,
+    e = 0,
+    f = 0
+  ) {
+    this.doc.transform(a, b, c, d, e, f);
+  };
+
+  canvas2pdf.PdfContext.prototype.setTransform = function (
+    a = 1,
+    b = 0,
+    c = 0,
+    d = 1,
+    e = 0,
+    f = 0
+  ) {
+    this.doc._ctm = [a, b, c, d, e, f];
   };
 
   canvas2pdf.PdfContext.prototype.beginPath = function () {
@@ -417,9 +444,6 @@
   /**
    * Not yet implemented
    */
-  canvas2pdf.PdfContext.prototype.setTransform = function () {
-    console.log('setTransform not implemented');
-  };
 
   canvas2pdf.PdfContext.prototype.createPattern = function (image, repetition) {
     console.log('createPattern not implemented');
