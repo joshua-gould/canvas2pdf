@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Canvas2PDF Demo</title>
-    <script src="lib/pdfkit.js"></script>
-    <script src="lib/blob-stream.js"></script>
-    <script src="canvas2pdf.js"></script>
-    <style>.CodeMirror {
-        border: 1px solid black;
-        margin-right: 20px;
-        display: inline-block;
-        vertical-align: top;
-    }</style>
-</head>
-<body>
-<h1>Canvas2PDF Demo</h1>
-<div>
-    <label>Load Example: </label>
-<select id="example_picker">
-    <option value="editor_source">Clock</option>
-    <option value="image_example">Image</option>
-</select>
-</div>
-<br />
-<textarea id="editor_source">
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"><title>Canvas2PDF Demo</title><script type="module" src="/index.629e0ea3.js"></script></head><body> <h1>Canvas2PDF Demo</h1> <div> <label for="example_picker">Load Example:</label><select id="example_picker"> <option value="editor_source">Clock</option> <option value="image_example">Image</option> </select> </div> <hr> <div style="width:600px"> <button style="float:right" id="redraw">Redraw</button> </div> <br> <textarea id="editor_source" style="width:600px;height:400px">
 // from https://www.w3schools.com/graphics/tryit.asp?filename=trycanvas_clock_hands
 var radius = 200;
 ctx.translate(radius, radius);
@@ -103,11 +75,7 @@ function drawHand(ctx, pos, length, width) {
     ctx.stroke();
     ctx.rotate(-pos);
 }
-
-
-</textarea>
-
-<textarea id="image_example" style="display:none;">
+</textarea> <textarea id="image_example" style="display:none">
 var image = new Image();
 image.crossOrigin = 'Anonymous';
 image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Tiger_in_Ranthambhore.jpg/220px-Tiger_in_Ranthambhore.jpg';
@@ -115,39 +83,4 @@ image.onload = function () {
     ctx.drawImage(image, 0, 0);
     ctx.end();
 };
-</textarea>
-
-<iframe style="border:1px solid black;" width="600" height="775">
-</iframe>
-<script src="lib/codemirror.js"></script>
-<link rel="stylesheet" href="lib/codemirror.css">
-<script type="text/javascript">
-  var examplePicker = document.getElementById('example_picker');
-  examplePicker.onchange = function () {
-   editor.setValue(document.getElementById(examplePicker.value).value)
-  };
-  var editor = CodeMirror.fromTextArea(document.getElementById('editor_source'), {
-    lineNumbers: true,
-  });
-  editor.setSize(600, 775);
-  var iframe = document.querySelector('iframe');
-  var createPdf = function () {
-    var text = editor.getValue();
-    var stream = blobStream();
-    var ctx = new canvas2pdf.PdfContext(stream);
-    eval(text);
-
-    ctx.stream.on('finish', function () {
-      iframe.src = ctx.stream.toBlobURL('application/pdf');
-    });
-
-  };
-  editor.on('changes', function () {
-    createPdf();
-  });
-  createPdf();
-</script>
-
-
-</body>
-</html>
+</textarea> <iframe style="border:1px solid #000" width="600" height="400"> </iframe> </body></html>

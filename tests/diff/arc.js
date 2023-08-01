@@ -1,8 +1,8 @@
-CANVAS2PDF_DIFF_TEST['arc'] = function (ctx) {
+export default function arc(ctx) {
 
   // Draw shapes
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < 3; j++) {
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 3; j++) {
       ctx.beginPath();
       var x = 25 + j * 50;               // x coordinate
       var y = 25 + i * 50;               // y coordinate

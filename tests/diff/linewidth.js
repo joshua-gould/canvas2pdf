@@ -1,5 +1,5 @@
-CANVAS2PDF_DIFF_TEST['linewidth'] = function (ctx) {
-  for (var i = 0; i < 10; i++) {
+export default function linewidth(ctx) {
+  for (let i = 0; i < 10; i++) {
     ctx.lineWidth = 1 + i;
     ctx.beginPath();
     ctx.moveTo(5 + i * 14, 5);

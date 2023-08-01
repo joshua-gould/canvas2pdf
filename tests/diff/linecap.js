@@ -1,4 +1,4 @@
-CANVAS2PDF_DIFF_TEST['linecap'] = function (ctx) {
+export default function  linecap (ctx) {
   var lineCap = ['butt', 'round', 'square'];
 
   // Draw guides
