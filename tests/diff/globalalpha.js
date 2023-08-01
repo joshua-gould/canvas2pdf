@@ -1,4 +1,4 @@
-CANVAS2PDF_DIFF_TEST['globalalpha'] = function (ctx) {
+export default function globalalpha  (ctx) {
   ctx.fillStyle = '#FD0';
   ctx.fillRect(0, 0, 75, 75);
   ctx.fillStyle = '#6C0';

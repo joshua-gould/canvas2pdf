@@ -1,4 +1,4 @@
-CANVAS2PDF_DIFF_TEST['gradient'] = function (ctx) {
+export default function gradient (ctx) {
   ctx.save();
   ctx.strokeStyle = 'rgba(0,0,0,0)';
   ctx.lineCap = 'butt';

@@ -57,5 +57,4 @@ typings/
 # dotenv environment variables file
 .env
 
-diff.html
-test/img/
+tests/img/

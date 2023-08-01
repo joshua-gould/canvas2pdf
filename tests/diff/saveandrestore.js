@@ -1,4 +1,4 @@
-CANVAS2PDF_DIFF_TEST['saveandrestore'] = function (ctx) {
+export default function saveandrestore  (ctx) {
   ctx.fillStyle = 'red';
   ctx.fillRect(0, 0, 600, 600);
 

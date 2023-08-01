@@ -1,4 +1,5 @@
-CANVAS2PDF_DIFF_TEST['emptyArc'] = function (ctx) {
+
+export default function emptyArc(ctx) {
   ctx.fillStyle = 'red';
   // Draw shapes
   for (var i = 0; i < 4; i++) {
