@@ -485,13 +485,41 @@ const PdfContext = function (stream, options) {
     }
   };
 
+  
+  this.setTransform = function (a, b, c, d, e, f) {
+    const ctm = doc._ctm;
+    const height = doc.page.height;
+
+    const [a1, b1, c1, d1, e1, f1] = ctm;
+    const determinant = a1 * d1 - b1 * c1;
+
+    const inverse = [
+      d1 / determinant,
+      -b1 / determinant,
+      -c1 / determinant,
+      a1 / determinant,
+      (c1 * f1 - d1 * e1) / determinant,
+      (b1 * e1 - a1 * f1) / determinant,
+    ];
+
+    doc.transform(
+      inverse[0],
+      inverse[1],
+      inverse[2],
+      inverse[3],
+      inverse[4],
+      inverse[5]
+    );
+
+    doc.translate(0, height);
+    doc.scale(1, -1);
+
+    doc.transform(a, b, c, d, e, f);
+  };
+
   /**
    * Not yet implemented
    */
-  this.setTransform = function () {
-    console.log('setTransform not implemented');
-  };
-
   this.createPattern = function (image, repetition) {
     console.log('createPattern not implemented');
   };
