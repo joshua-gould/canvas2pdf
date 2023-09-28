@@ -6,4 +6,4 @@ export default function linewidth(ctx) {
     ctx.lineTo(5 + i * 14, 140);
     ctx.stroke();
   }
-};
+}

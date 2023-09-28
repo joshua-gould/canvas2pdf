@@ -1,4 +1,4 @@
-import PDFDocument from 'pdfkit';
+import PDFDocument from "pdfkit";
 
 /*
  *
@@ -15,7 +15,7 @@ import PDFDocument from 'pdfkit';
 
 function hex(v) {
   return v < 0x10
-    ? '0' + Math.max(0, v).toString(16)
+    ? "0" + Math.max(0, v).toString(16)
     : Math.min(255, v).toString(16);
 }
 
@@ -44,23 +44,23 @@ function hsl2rgb(h, m1, m2) {
   );
 }
 
-const reI = '\\s*([+-]?\\d+)\\s*',
-  reN = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*',
-  reP = '\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*',
-  reRgbInteger = new RegExp('^rgb\\(' + [reI, reI, reI] + '\\)$'),
-  reRgbPercent = new RegExp('^rgb\\(' + [reP, reP, reP] + '\\)$'),
-  reRgbaInteger = new RegExp('^rgba\\(' + [reI, reI, reI, reN] + '\\)$'),
-  reRgbaPercent = new RegExp('^rgba\\(' + [reP, reP, reP, reN] + '\\)$'),
-  reHslPercent = new RegExp('^hsl\\(' + [reN, reP, reP] + '\\)$'),
-  reHslaPercent = new RegExp('^hsla\\(' + [reN, reP, reP, reN] + '\\)$');
+const reI = "\\s*([+-]?\\d+)\\s*",
+  reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
+  reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
+  reRgbInteger = new RegExp("^rgb\\(" + [reI, reI, reI] + "\\)$"),
+  reRgbPercent = new RegExp("^rgb\\(" + [reP, reP, reP] + "\\)$"),
+  reRgbaInteger = new RegExp("^rgba\\(" + [reI, reI, reI, reN] + "\\)$"),
+  reRgbaPercent = new RegExp("^rgba\\(" + [reP, reP, reP, reN] + "\\)$"),
+  reHslPercent = new RegExp("^hsl\\(" + [reN, reP, reP] + "\\)$"),
+  reHslaPercent = new RegExp("^hsla\\(" + [reN, reP, reP, reN] + "\\)$");
 
 const rgbToHex = function (r, g, b, a) {
-  return {c: '#' + hex(r) + hex(g) + hex(b), a: a};
+  return { c: "#" + hex(r) + hex(g) + hex(b), a: a };
 };
 
 const fixColor = function (value) {
   let m;
-  const format = (value + '').trim().toLowerCase();
+  const format = (value + "").trim().toLowerCase();
   if ((m = reRgbInteger.exec(format))) {
     // rgb(255, 0, 0)
     return rgbToHex(m[1], m[2], m[3], 1);
@@ -89,7 +89,7 @@ const fixColor = function (value) {
   } else if ((m = reHslaPercent.exec(format))) {
     return hslToHex(m[1], m[2] / 100, m[3] / 100, m[4]); // hsla(120, 50%, 50%, 1)
   } else {
-    return {c: value, a: 1};
+    return { c: value, a: 1 };
   }
 };
 /**
@@ -100,24 +100,24 @@ const fixColor = function (value) {
  */
 const PdfContext = function (stream, options) {
   if (stream == null) {
-    throw new Error('Stream must be provided.');
+    throw new Error("Stream must be provided.");
   }
 
   const doc = new PDFDocument(options);
   this.stream = doc.pipe(stream);
-  let fontValue = '10px Helvetica';
-  let textAlign = 'left';
-  let textBaseline = 'alphabetic';
+  let fontValue = "10px Helvetica";
+  let textAlign = "left";
+  let textBaseline = "alphabetic";
   let lineHeight = doc.currentLineHeight(false);
   let font = fontValue;
 
   const fontRegex =
     /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\'\"\sa-z]+?)\s*$/i;
   const defaultFontData = {
-    style: 'normal',
+    style: "normal",
     size: 10,
-    family: 'Helvetica',
-    weight: 'normal',
+    family: "Helvetica",
+    weight: "normal",
   };
   const parseFont = function () {
     const fontPart = fontRegex.exec(font);
@@ -125,15 +125,15 @@ const PdfContext = function (stream, options) {
       return defaultFontData;
     }
     const data = {
-      style: fontPart[1] || 'normal',
+      style: fontPart[1] || "normal",
       size: parseInt(fontPart[4]) || 10,
-      family: fontPart[6] || 'Helvetica',
-      weight: fontPart[3] || 'normal',
+      family: fontPart[6] || "Helvetica",
+      weight: fontPart[3] || "normal",
     };
     return data;
   };
 
-  Object.defineProperty(this, 'fillStyle', {
+  Object.defineProperty(this, "fillStyle", {
     get: function () {
       return doc.fillColor();
     },
@@ -142,7 +142,7 @@ const PdfContext = function (stream, options) {
       doc.fillColor(color.c, color.a);
     },
   });
-  Object.defineProperty(this, 'strokeStyle', {
+  Object.defineProperty(this, "strokeStyle", {
     get: function () {
       return doc.strokeColor();
     },
@@ -151,7 +151,7 @@ const PdfContext = function (stream, options) {
       doc.strokeColor(color.c, color.a);
     },
   });
-  Object.defineProperty(this, 'lineWidth', {
+  Object.defineProperty(this, "lineWidth", {
     get: function () {
       return doc.lineWidth();
     },
@@ -160,7 +160,7 @@ const PdfContext = function (stream, options) {
     },
   });
 
-  Object.defineProperty(this, 'lineCap', {
+  Object.defineProperty(this, "lineCap", {
     get: function () {
       return doc.lineCap();
     },
@@ -168,7 +168,7 @@ const PdfContext = function (stream, options) {
       doc.lineCap(value);
     },
   });
-  Object.defineProperty(this, 'lineJoin', {
+  Object.defineProperty(this, "lineJoin", {
     get: function () {
       return doc.lineJoin();
     },
@@ -177,7 +177,7 @@ const PdfContext = function (stream, options) {
     },
   });
 
-  Object.defineProperty(this, 'globalAlpha', {
+  Object.defineProperty(this, "globalAlpha", {
     get: function () {
       return doc.opacity();
     },
@@ -186,7 +186,7 @@ const PdfContext = function (stream, options) {
     },
   });
 
-  Object.defineProperty(this, 'font', {
+  Object.defineProperty(this, "font", {
     get: function () {
       return fontValue;
     },
@@ -271,7 +271,7 @@ const PdfContext = function (stream, options) {
    */
   this.clearRect = function (x, y, width, height) {
     const oldFill = doc.fillColor();
-    doc.fillColor('white');
+    doc.fillColor("white");
     doc.rect(x, y, width, height);
     doc.fill();
     doc.fillColor(oldFill);
@@ -292,12 +292,12 @@ const PdfContext = function (stream, options) {
 
     // Is the radius negative? Error.
     if (r < 0) {
-      throw new Error('negative radius: ' + r);
+      throw new Error("negative radius: " + r);
     }
-    let cmd = '';
+    let cmd = "";
     // Is this path empty? Move to (x0,y0).
 
-    cmd += 'M' + x0 + ',' + y0;
+    cmd += "M" + x0 + "," + y0;
 
     // // Or, is (x0,y0) not coincident with the previous point? Line to (x0,y0).
     // else if (Math.abs(this._x1 - x0) > epsilon || Math.abs(this._y1 - y0) > epsilon) {
@@ -317,42 +317,42 @@ const PdfContext = function (stream, options) {
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
       cmd +=
-        'A' +
+        "A" +
         r +
-        ',' +
+        "," +
         r +
-        ',0,1,' +
+        ",0,1," +
         cw +
-        ',' +
+        "," +
         (x - dx) +
-        ',' +
+        "," +
         (y - dy) +
-        'A' +
+        "A" +
         r +
-        ',' +
+        "," +
         r +
-        ',0,1,' +
+        ",0,1," +
         cw +
-        ',' +
+        "," +
         x0 +
-        ',' +
+        "," +
         y0;
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon) {
       cmd +=
-        'A' +
+        "A" +
         r +
-        ',' +
+        "," +
         r +
-        ',0,' +
+        ",0," +
         +(da >= pi) +
-        ',' +
+        "," +
         cw +
-        ',' +
+        "," +
         (x + r * Math.cos(a1)) +
-        ',' +
+        "," +
         (y + r * Math.sin(a1));
     }
     doc.path(cmd);
@@ -384,11 +384,11 @@ const PdfContext = function (stream, options) {
   };
 
   this.adjustTextX = function (text, x) {
-    if (textAlign !== 'start' || textAlign !== 'left') {
+    if (textAlign !== "start" || textAlign !== "left") {
       const width = doc.widthOfString(text);
-      if (textAlign === 'right' || textAlign === 'end') {
+      if (textAlign === "right" || textAlign === "end") {
         x -= width;
-      } else if (textAlign === 'center') {
+      } else if (textAlign === "center") {
         x -= width / 2;
       }
     }
@@ -397,11 +397,11 @@ const PdfContext = function (stream, options) {
 
   this.adjustTextY = function (text, y) {
     // baseline is top by default
-    if (textBaseline === 'bottom') {
+    if (textBaseline === "bottom") {
       y -= lineHeight;
-    } else if (textBaseline === 'middle') {
+    } else if (textBaseline === "middle") {
       y -= lineHeight / 2;
-    } else if (textBaseline === 'alphabetic') {
+    } else if (textBaseline === "alphabetic") {
       y -= lineHeight / 2 + 1;
     }
     return y;
@@ -420,13 +420,13 @@ const PdfContext = function (stream, options) {
   this.strokeText = function (text, x, y) {
     x = this.adjustTextX(text, x);
     y = this.adjustTextY(text, y);
-    doc.text(text, x, y, {lineBreak: false, stroke: true, fill: false});
+    doc.text(text, x, y, { lineBreak: false, stroke: true, fill: false });
   };
 
   this.measureText = function (text) {
-    text = '' + text;
+    text = "" + text;
     const width = doc.widthOfString(text);
-    return {width: width, height: lineHeight};
+    return { width: width, height: lineHeight };
   };
 
   this.clip = function () {
@@ -469,59 +469,81 @@ const PdfContext = function (stream, options) {
       dh = args[8];
     } else {
       throw new Error(
-        'Invalid number of arguments passed to drawImage: ' + arguments.length,
+        "Invalid number of arguments passed to drawImage: " + arguments.length,
       );
     }
 
-    if (image.nodeName === 'IMG') {
-      const canvas = document.createElement('canvas');
+    if (image.nodeName === "IMG") {
+      const canvas = document.createElement("canvas");
       canvas.width = image.width;
       canvas.height = image.height;
-      canvas.getContext('2d').drawImage(image, 0, 0);
-      const dataURL = canvas.toDataURL('image/png');
-      doc.image(dataURL, dx, dy, {width: dw, height: dh});
+      canvas.getContext("2d").drawImage(image, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
+      doc.image(dataURL, dx, dy, { width: dw, height: dh });
     } else {
-      doc.image(image, dx, dy, {width: dw, height: dh});
+      doc.image(image, dx, dy, { width: dw, height: dh });
     }
+  };
+
+  this.setTransform = function (a, b, c, d, e, f) {
+    const ctm = doc._ctm;
+    const height = doc.page.height;
+    const [a1, b1, c1, d1, e1, f1] = ctm;
+    const determinant = a1 * d1 - b1 * c1;
+    const inverse = [
+      d1 / determinant,
+      -b1 / determinant,
+      -c1 / determinant,
+      a1 / determinant,
+      (c1 * f1 - d1 * e1) / determinant,
+      (b1 * e1 - a1 * f1) / determinant,
+    ];
+    doc.transform(
+      inverse[0],
+      inverse[1],
+      inverse[2],
+      inverse[3],
+      inverse[4],
+      inverse[5],
+    );
+    doc.translate(0, height);
+    doc.scale(1, -1);
+    doc.transform(a, b, c, d, e, f);
   };
 
   /**
    * Not yet implemented
    */
-  this.setTransform = function () {
-    console.log('setTransform not implemented');
-  };
-
   this.createPattern = function (image, repetition) {
-    console.log('createPattern not implemented');
+    console.log("createPattern not implemented");
   };
 
   this.setLineDash = function (dashArray) {
-    console.log('setLineDash not implemented');
+    console.log("setLineDash not implemented");
   };
 
   this.drawFocusRing = function () {
-    console.log('drawFocusRing not implemented');
+    console.log("drawFocusRing not implemented");
   };
 
   this.createImageData = function () {
-    console.log('drawFocusRing not implemented');
+    console.log("drawFocusRing not implemented");
   };
 
   this.getImageData = function () {
-    console.log('getImageData not implemented');
+    console.log("getImageData not implemented");
   };
 
   this.putImageData = function () {
-    console.log('putImageData not implemented');
+    console.log("putImageData not implemented");
   };
 
   this.globalCompositeOperation = function () {
-    console.log('globalCompositeOperation not implemented');
+    console.log("globalCompositeOperation not implemented");
   };
 
   this.arcTo = function (x1, y1, x2, y2, radius) {
-    console.log('arcTo not implemented');
+    console.log("arcTo not implemented");
   };
 };
 

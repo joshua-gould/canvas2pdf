@@ -1,6 +1,5 @@
-
 export default function emptyArc(ctx) {
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = "red";
   // Draw shapes
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 3; j++) {
@@ -9,4 +8,4 @@ export default function emptyArc(ctx) {
       ctx.fill();
     }
   }
-};
+}

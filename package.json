@@ -2,7 +2,7 @@
   "name": "canvas2pdf",
   "description": "Export an HTML canvas to PDF",
   "license": "MIT",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/joshua-gould/canvas2pdf.git"
@@ -28,7 +28,7 @@
     "test:generate-images": "yarn jest",
     "test:convert-pdfs": "node tests/convert.pdf.to.png.js",
     "test:diff": "node tests/diff.images.js",
-    "test": "npm run test:generate-images && npm run test:convert-pdfs && npm run test:diff"
+    "test": "yarn run test:generate-images && yarn run test:convert-pdfs && yarn run test:diff"
   },
   "devDependencies": {
     "assert": "^2.0.0",
@@ -40,6 +40,7 @@
     "jest": "^29.6.2",
     "jest-puppeteer": "^9.0.0",
     "parcel": "^2.9.3",
+    "prettier": "3.0.3",
     "process": "^0.11.10",
     "puppeteer": "^20.9.0",
     "stream-browserify": "^3.0.0",

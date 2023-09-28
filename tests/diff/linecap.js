@@ -1,8 +1,8 @@
-export default function  linecap (ctx) {
-  var lineCap = ['butt', 'round', 'square'];
+export default function linecap(ctx) {
+  var lineCap = ["butt", "round", "square"];
 
   // Draw guides
-  ctx.strokeStyle = '#09f';
+  ctx.strokeStyle = "#09f";
   ctx.beginPath();
   ctx.moveTo(10, 10);
   ctx.lineTo(140, 10);
@@ -11,7 +11,7 @@ export default function  linecap (ctx) {
   ctx.stroke();
 
   // Draw lines
-  ctx.strokeStyle = 'black';
+  ctx.strokeStyle = "black";
   for (var i = 0; i < lineCap.length; i++) {
     ctx.lineWidth = 15;
     ctx.lineCap = lineCap[i];
@@ -20,4 +20,4 @@ export default function  linecap (ctx) {
     ctx.lineTo(25 + i * 50, 140);
     ctx.stroke();
   }
-};
+}

@@ -1,9 +1,9 @@
 name: test
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node-version: [ 16.x ]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -22,9 +22,10 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y graphicsmagick libxss1
           yarn install
-      - name: Test with yarn
+      - name: Run tests
         run: |
-          yarn test
+          yarn test:generate-images
+          yarn test:convert-pdfs 
+          yarn test:diff
         env:
           CI: true
-
