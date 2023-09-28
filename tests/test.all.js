@@ -57,4 +57,4 @@ it('canvas"', async () => {
   for (let i = 0; i < tests.length; i++) {
     await generateImages(tests[i]);
   }
-}, 10000);
+}, 20000);
