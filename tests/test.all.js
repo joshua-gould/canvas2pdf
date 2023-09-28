@@ -7,7 +7,7 @@ fs.mkdirSync("tests/img/png", { recursive: true });
 fs.mkdirSync("tests/img/pdf", { recursive: true });
 
 async function generateImages(name) {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   await page.setViewport({ width: 1500, height: 1000 });
   await page.goto("http://localhost:1234?name=" + name);
