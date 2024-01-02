@@ -40,6 +40,6 @@ ctx.end();
 
 MIT
 
-# Developer Dependencies
+## Developer Dependencies
 
 - GraphicsMagick is required for running tests
